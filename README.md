@@ -32,6 +32,10 @@ Flowra is an advanced period-tracking and health platform that converts routine 
 
 ---
 
+## Workflow Diagram
+
+<img width="1944" height="858" alt="image" src="https://github.com/user-attachments/assets/144e4080-b092-4645-bbea-ce6207ec0420" />
+
 ## Business Model & Monetization Strategy
 
 Flowra operates on a high-growth **D2C and B2B hybrid model**:
