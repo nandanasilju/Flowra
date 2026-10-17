@@ -1,0 +1,212 @@
+// Flowra data model.
+// Postgres-compatible: arrays/objects are stored as JSON *strings* (see src/lib/json.ts)
+// so the same schema works on SQLite (local) and Postgres (production). See README "Deploy".
+// Free-text health fields (transcripts, notes) are AES-256-GCM encrypted per user (src/lib/crypto.ts).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  passwordHash    String
+  name            String
+  language        String          @default("en") // en | hi | ml
+  consentAt       DateTime?
+  goal            String          @default("track") // track | symptoms | conceive | care
+  plan            String          @default("free") // free | plus
+  personalizeShop Boolean         @default(true)
+  avgCycleLength  Int?
+  settings        String          @default("{}") // JSON: reminders, calendar view, accessibility, product prefs, custom symptoms, goals
+  dataKey         String? // per-user data key, wrapped (encrypted) with the server master key
+  isDemo          Boolean         @default(false)
+  isAdmin         Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+  painEvents      PainEvent[]
+  dailyLogs       DailyLog[]
+  periods         PeriodLog[]
+  snapshots       ScoreSnapshot[]
+  orders          Order[]
+  appointments    Appointment[]
+  shareLinks      ShareLink[]
+  resets          PasswordReset[]
+}
+
+model PainEvent {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  occurredAt       DateTime
+  painScore        Int // 0-10
+  descriptors      String   @default("[]")
+  locations        String   @default("[]")
+  onsetNote        String? // encrypted
+  durationMinutes  Int?
+  isPeriodDay      Boolean?
+  bleeding         String?
+  functionalImpact String   @default("none")
+  missedActivity   Boolean  @default(false)
+  bedBound         Boolean  @default(false)
+  associated       String   @default("[]")
+  medications      String   @default("[]")
+  redFlags         String   @default("[]")
+  transcript       String   @default("") // encrypted
+  transcriptEn     String   @default("") // encrypted
+  languageDetected String   @default("en")
+  source           String   @default("text")
+  confidence       Float    @default(1)
+  createdAt        DateTime @default(now())
+
+  @@index([userId, occurredAt])
+}
+
+/// One row per user per calendar day: flow, pad chart, mood, energy, sleep, symptoms.
+model DailyLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date       String // YYYY-MM-DD (local calendar day)
+  flow       String? // none | spotting | light | medium | heavy
+  pbac       String   @default("{}") // JSON pad/tampon chart counts + clots + flooding
+  mood       Int? // 1 (very low) - 5 (great)
+  energy     Int? // 1-5
+  sleepHours Float?
+  symptoms   String   @default("[]") // JSON symptom codes
+  custom     String   @default("[]") // JSON custom symptom labels
+  notes      String? // encrypted
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
+
+model PeriodLog {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  startDate DateTime
+  endDate   DateTime?
+
+  @@index([userId, startDate])
+}
+
+model ScoreSnapshot {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  computedAt DateTime @default(now())
+  score      Int
+  level      String
+  components String
+  reasons    String
+  redFlag    Boolean  @default(false)
+
+  @@index([userId, computedAt])
+}
+
+model Product {
+  id           String      @id
+  name         String
+  category     String // pads|tampons|cups|period_underwear|comfort|hygiene
+  description  String
+  priceInr     Int
+  emoji        String
+  tags         String      @default("[]")
+  sponsored    Boolean     @default(false)
+  affiliate    Boolean     @default(false)
+  url          String      @default("")
+  retailer     String      @default("")
+  linkVerified Boolean     @default(false) // true only once an admin confirms a product-specific link
+  stock        Int         @default(100)
+  orderItems   OrderItem[]
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    String      @default("mock_paid")
+  totalInr  Int
+  createdAt DateTime    @default(now())
+  items     OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  qty       Int
+  priceInr  Int
+}
+
+model Doctor {
+  id              String        @id @default(cuid())
+  name            String
+  specialty       String // gynaecologist | endocrinologist | general_physician | psychiatrist | dermatologist
+  qualifications  String
+  experienceYears Int
+  city            String
+  clinic          String
+  languages       String        @default("[]")
+  modes           String        @default("[]") // in_person | online
+  feeInr          Int
+  bio             String        @default("")
+  schedule        String        @default("{}") // JSON {days:[1..6], start:"10:00", end:"17:00", slotMinutes:20}
+  verified        Boolean       @default(false) // registration checked by an admin
+  isSample        Boolean       @default(true) // sample profile for demos; hide in production
+  active          Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  appointments    Appointment[]
+}
+
+model Appointment {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  doctorId      String
+  doctor        Doctor    @relation(fields: [doctorId], references: [id])
+  startsAt      DateTime
+  mode          String // in_person | online
+  status        String    @default("booked") // booked | cancelled | completed
+  feeInr        Int
+  platformFeeInr Int
+  notes         String? // encrypted
+  shareLinkId   String?
+  createdAt     DateTime  @default(now())
+  cancelledAt   DateTime?
+
+  @@index([doctorId, startsAt])
+  @@index([userId, startsAt])
+}
+
+/// Consent-based, revocable, expiring read-only link to the user's report.
+model ShareLink {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  label     String
+  days      Int       @default(90)
+  expiresAt DateTime
+  revokedAt DateTime?
+  views     Int       @default(0)
+  createdAt DateTime  @default(now())
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}

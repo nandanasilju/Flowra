@@ -1,0 +1,95 @@
+{
+  "description": "15 sample utterances (5 English, 5 Hindi in Devanagari, 5 Malayalam in native script) with expected key fields. Only fields listed under 'expected' are scored. Run: npm run eval:extraction",
+  "utterances": [
+    {
+      "id": "en1",
+      "language": "en",
+      "text": "Cramps in my lower tummy, about 7 out of 10. It's my period, day one, and the flow is heavy.",
+      "expected": { "painScore": 7, "descriptors": ["cramping"], "locations": ["lower_abdomen"], "isPeriodDay": true, "bleeding": "heavy", "redFlags": [] }
+    },
+    {
+      "id": "en2",
+      "language": "en",
+      "text": "Sharp pain on my right side, 5 out of 10. I'm not on my period.",
+      "expected": { "painScore": 5, "descriptors": ["sharp"], "locations": ["pelvis_right"], "isPeriodDay": false, "redFlags": [] }
+    },
+    {
+      "id": "en3",
+      "language": "en",
+      "text": "My back is aching, 4 out of 10. Took paracetamol and it helped.",
+      "expected": { "painScore": 4, "locations": ["lower_back"], "medications": ["paracetamol"], "redFlags": [] }
+    },
+    {
+      "id": "en4",
+      "language": "en",
+      "text": "Really bad cramps, 9 out of 10, I couldn't go to college and I'm lying down. Ibuprofen didn't help.",
+      "expected": { "painScore": 9, "descriptors": ["cramping"], "functionalImpact": "severe", "medications": ["ibuprofen"], "redFlags": [] }
+    },
+    {
+      "id": "en5",
+      "language": "en",
+      "text": "The pain came on suddenly, it's 9 out of 10, and I fainted for a moment.",
+      "expected": { "painScore": 9, "associated": ["fainting"], "redFlags": ["fainting", "sudden_severe_pain"] }
+    },
+    {
+      "id": "hi1",
+      "language": "hi",
+      "text": "पेट में ऐंठन है, 10 में से 6। पीरियड का दूसरा दिन है।",
+      "expected": { "painScore": 6, "descriptors": ["cramping"], "locations": ["lower_abdomen"], "isPeriodDay": true, "redFlags": [] }
+    },
+    {
+      "id": "hi2",
+      "language": "hi",
+      "text": "कमर में दर्द है, 10 में से 5, और सिरदर्द भी है।",
+      "expected": { "painScore": 5, "locations": ["lower_back"], "associated": ["headache"], "redFlags": [] }
+    },
+    {
+      "id": "hi3",
+      "language": "hi",
+      "text": "बहुत तेज़ दर्द है, 10 में से 8, उल्टी हो रही है और रुक नहीं रही।",
+      "expected": { "painScore": 8, "associated": ["vomiting"], "redFlags": ["persistent_vomiting"] }
+    },
+    {
+      "id": "hi4",
+      "language": "hi",
+      "text": "पेट में दर्द और बुखार है, 10 में से 7।",
+      "expected": { "painScore": 7, "locations": ["lower_abdomen"], "associated": ["fever"], "redFlags": ["fever_with_pain"] }
+    },
+    {
+      "id": "hi5",
+      "language": "hi",
+      "text": "हल्का दर्द है, 10 में से 3। मतली भी है।",
+      "expected": { "painScore": 3, "associated": ["nausea"], "redFlags": [] }
+    },
+    {
+      "id": "ml1",
+      "language": "ml",
+      "text": "അടിവയറ്റിൽ കൊളുത്തിപ്പിടിക്കുന്ന വേദന, പത്തിൽ 6. ആർത്തവത്തിന്റെ ആദ്യ ദിവസമാണ്.",
+      "expected": { "painScore": 6, "descriptors": ["cramping"], "locations": ["lower_abdomen"], "isPeriodDay": true, "redFlags": [] }
+    },
+    {
+      "id": "ml2",
+      "language": "ml",
+      "text": "നടുവേദനയുണ്ട്, പത്തിൽ 4.",
+      "expected": { "painScore": 4, "locations": ["lower_back"], "redFlags": [] }
+    },
+    {
+      "id": "ml3",
+      "language": "ml",
+      "text": "വയറുവേദനയും പനിയും ഉണ്ട്, പത്തിൽ 7.",
+      "expected": { "painScore": 7, "locations": ["lower_abdomen"], "associated": ["fever"], "redFlags": ["fever_with_pain"] }
+    },
+    {
+      "id": "ml4",
+      "language": "ml",
+      "text": "ഭയങ്കര വേദന, പത്തിൽ 8. ഇന്ന് കോളേജിൽ പോകാൻ പറ്റിയില്ല.",
+      "expected": { "painScore": 8, "functionalImpact": "severe", "redFlags": [] }
+    },
+    {
+      "id": "ml5",
+      "language": "ml",
+      "text": "തലവേദനയും ഓക്കാനവും ഉണ്ട്, വേദന പത്തിൽ 5.",
+      "expected": { "painScore": 5, "associated": ["headache", "nausea"], "redFlags": [] }
+    }
+  ]
+}

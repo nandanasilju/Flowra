@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 33% 98%;
+    --foreground: 24 10% 21%;
+    --card: 0 0% 100%;
+    --card-foreground: 24 10% 21%;
+    --primary: 272 52% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 185 81% 29%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 30 30% 93%;
+    --muted-foreground: 24 8% 38%;
+    --destructive: 4 76% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 24% 87%;
+    --input: 30 24% 87%;
+    --ring: 272 45% 48%;
+    color-scheme: light;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-sand-50 text-sand-800 antialiased;
+  }
+  :focus-visible {
+    outline-color: #7a45ae;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+.high-contrast {
+  --tw-text-opacity: 1;
+}
+.high-contrast .text-sand-600,
+.high-contrast .text-sand-400 {
+  color: #3b3530 !important;
+}
+.high-contrast .border-sand-200 {
+  border-color: #6b6159 !important;
+}
+
+/* Print stylesheet for the doctor summary. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+  main {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  .print-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border-color: #ccc !important;
+  }
+  @page {
+    margin: 14mm;
+  }
+}
