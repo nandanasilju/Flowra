@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Flowra: AI-powered period tracker and menstrual health companion. Track cycles, log symptoms by voice, understand patterns and find care.",
   manifest: "/manifest.webmanifest",
   applicationName: "Flowra",
-  appleWebApp: { capable: true, title: { default: "Flowra · Your cycle, understood", template: "%s · Flowra" }, statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "Flowra", statusBarStyle: "default" },
   icons: { icon: "/icons/icon-192.png", apple: "/icons/icon-192.png" },
 };
 

@@ -60,7 +60,7 @@ export function PublicShell({ children, signedIn = false }: { children: React.Re
           <div className="flex flex-col gap-1">
             <Link href="/learn" className="hover:text-sand-800">Learn</Link>
             <Link href="/conditions" className="hover:text-sand-800">Conditions library</Link>
-            <Link href="/how-it-works" className="hover:text-sand-800">How Flowra's AI works</Link>
+            <Link href="/how-it-works" className="hover:text-sand-800">How Flowra&apos;s AI works</Link>
             <Link href="/privacy" className="hover:text-sand-800">Privacy & safety</Link>
             <Link href="/urgent" className="font-semibold text-level-urgent hover:underline">Urgent help (112)</Link>
           </div>

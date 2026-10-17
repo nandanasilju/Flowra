@@ -3,13 +3,13 @@
  * the API key is read from process.env and never sent to the browser.
  * Audio is passed inline (base64) and never written to disk or the database.
  */
-import { GoogleGenAI, type Schema } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel, type Schema } from "@google/genai";
 import { EXTRACTION_SYSTEM_PROMPT, followUpPrompt } from "./prompt";
 import { GEMINI_RESPONSE_SCHEMA } from "./schema";
 
 // Flash-class default. CONFIRM the current model id in Google AI Studio and set GEMINI_MODEL.
-export const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
-export const AI_TIMEOUT_MS = 8000;
+export const DEFAULT_GEMINI_MODEL = "gemini-3.8-flash";
+export const AI_TIMEOUT_MS = 15000;
 
 export function geminiConfigured(): boolean {
   return Boolean(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim());
@@ -57,6 +57,8 @@ export async function callGemini(input: GeminiInput, timeoutMs: number = AI_TIME
         responseMimeType: "application/json",
         responseSchema: GEMINI_RESPONSE_SCHEMA as unknown as Schema,
         temperature: 0,
+        // Field extraction needs no deep reasoning; low thinking keeps latency under AI_TIMEOUT_MS.
+        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
       },
     }),
     timeoutMs,

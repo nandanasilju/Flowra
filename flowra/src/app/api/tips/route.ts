@@ -20,5 +20,5 @@ export const GET = handle(async () => {
   const fromPatterns = p.cards.flatMap((c) => c.tips).map(getArticle).filter((a): a is (typeof ARTICLES)[number] => Boolean(a));
   const seen = new Set<string>();
   const tips = [...fromSymptoms, ...fromPatterns].filter((a) => (seen.has(a.slug) ? false : (seen.add(a.slug), true))).slice(0, 4);
-  return json({ tips: tips.map((a) => ({ slug: a.slug, title: a.title, summary: a.summary, because: a.triggers.filter((t) => symptoms.includes(t)) })) });
+  return json({ tips: tips.map((a) => ({ slug: a.slug, title: a.title, summary: a.summary, because: a.triggers.filter((t) => (symptoms as string[]).includes(t)) })) });
 });

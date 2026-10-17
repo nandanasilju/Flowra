@@ -40,7 +40,9 @@ export async function runExtraction(req: ExtractionRequest): Promise<ExtractResp
       const parsed = ExtractionSchema.safeParse(raw);
       if (parsed.success) return buildResponse(parsed.data, "gemini", req.language, req.followUpCount);
       notice = "The AI answer didn't pass our checks, so we used basic keyword matching. Please check every field.";
-    } catch {
+    } catch (err) {
+      // Log only the error message (never the note or audio) so misconfigured keys/models are visible.
+      console.warn("[extraction] Gemini call failed:", err instanceof Error ? err.message.slice(0, 300) : String(err));
       notice = "The AI service didn't respond in time, so we used basic keyword matching. Please check every field.";
     }
   } else if (!notice) {
