@@ -5,7 +5,7 @@
 ---
 
 ## The Problem
-Traditional period-tracking applications are built exclusively for cycle prediction and basic fertility windows[cite: 6], ignoring the broader landscape of chronic reproductive disorders like endometriosis—which takes 7–9 years on average to diagnose[cite: 1]. Users struggle with high-friction daily logging and lack tools that extract meaningful clinical red flags from their day-to-day symptom patterns[cite: 2, 3].
+Traditional period-tracking applications are built exclusively for cycle prediction and basic fertility windows, ignoring the broader landscape of chronic reproductive disorders like endometriosis—which takes 7–9 years on average to diagnose. Users struggle with high-friction daily logging and lack tools that extract meaningful clinical red flags from their day-to-day symptom patterns.
 
 ---
 
@@ -13,10 +13,10 @@ Traditional period-tracking applications are built exclusively for cycle predict
 Flowra is an advanced period-tracking and health platform that converts routine logs and voice updates into clinical insights, early risk detection, and seamless lifestyle support.
 
 ### Core Features & Architecture
-1. **Voice-to-Text Updates:** Low-friction, natural language logging that allows users to speak their symptoms (e.g., *"bad cramps today, couldn't get out of bed, bloated"*)[cite: 3] directly into structured logs.
-2. **Pattern-Based Disease Detection:** Analyzes time-series tracking data to surface recurring symptom clusters, cyclical pain flares, and indicators of conditions like endometriosis[cite: 2, 3].
+1. **Voice-to-Text Updates:** Low-friction, natural language logging that allows users to speak their symptoms (e.g., *"bad cramps today, couldn't get out of bed, bloated"*) directly into structured logs.
+2. **Pattern-Based Disease Detection:** Analyzes time-series tracking data to surface recurring symptom clusters, cyclical pain flares, and indicators of conditions like endometriosis.
 3. **Menstruation-Specific Shopping Cart:** An integrated commerce experience tailored to menstrual health needs, offering curated relief products, supplements, and comfort essentials mapped to cycle phases.
-4. **Clinical Summary & Export:** Generates structured reports designed to bridge the communication gap between patients and healthcare professionals during consultations[cite: 1, 3].
+4. **Clinical Summary & Export:** Generates structured reports designed to bridge the communication gap between patients and healthcare professionals during consultations.
 
 ---
 
@@ -24,11 +24,11 @@ Flowra is an advanced period-tracking and health platform that converts routine 
 
 | Feature | MVP Status | Description |
 | :--- | :--- | :--- |
-| **Voice-to-Text Logging** | **Live** | Speech-to-text input parsed automatically into structured symptom models[cite: 3]. |
-| **Cycle & Phase Tracking** | **Live** | Core tracking of bleeding, pain scales, mood, and fatigue[cite: 2]. |
-| **Disease Detection Engine** | **Live** | Pattern recognition algorithm flagging chronic acyclical pain and anomaly clusters[cite: 3]. |
+| **Voice-to-Text Logging** | **Live** | Speech-to-text input parsed automatically into structured symptom models. |
+| **Cycle & Phase Tracking** | **Live** | Core tracking of bleeding, pain scales, mood, and fatigue. |
+| **Disease Detection Engine** | **Live** | Pattern recognition algorithm flagging chronic acyclical pain and anomaly clusters. |
 | **Menstrual Shopping Cart** | **Live** | E-commerce integration featuring targeted wellness and comfort products. |
-| **Clinician Report PDF** | **Roadmap** | Single-page doctor-ready export summarizing multi-cycle trends[cite: 3]. |
+| **Clinician Report PDF** | **Roadmap** | Single-page doctor-ready export summarizing multi-cycle trends. |
 
 ---
 
@@ -45,7 +45,7 @@ Flowra operates on a high-growth **D2C and B2B hybrid model**:
 
 * **Frontend:** React.js / Next.js, Tailwind CSS, Web Speech API for voice-to-text inputs.
 * **Backend:** Node.js, Express, Local Secure Storage / SQLite.
-* **AI & Analytics:** LLM and time-series pattern matching models for symptom parsing and disease risk detection[cite: 3].
+* **AI & Analytics:** LLM and time-series pattern matching models for symptom parsing and disease risk detection.
 
 ---
 
